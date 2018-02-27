@@ -12,11 +12,23 @@ class App extends Component {
 
   handleLogin = (event) => {
     event.preventDefault()
-    this.setState({
-      loggedIn: true,
-      username: event.target[0].value.toUpperCase()
-    })
+    let username = event.target[0].value
+    let password = event.target[1].value
+    fetch("http://localhost:3000/api/v1/sessions", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({username: username, password: password})
+    }).then(res => res.json()).then(json => {
+        this.setState({
+          loggedIn: true,
+          username: username
+        })
+      })
   }
+
+
 
   render() {
     return (
